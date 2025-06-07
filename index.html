@@ -1,129 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jaydeep Zala | Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <h1>Jaydeep Zala</h1>
-    <p>Customer Service | Technical Support | Sales Associate</p>
-    <p>📍 Etobicoke, ON | 📧 zalajay515@gmail.com | 📞 437-488-1488</p>
-  </header>
-
-  <div class="container">
-    <section>
-      <h2>Professional Summary</h2>
-      <p>Proactive and results-driven professional with experience in customer service, sales, and technical support. Strong background in computer science with hands-on project experience and research contributions.</p>
-    </section>
-
-    <section>
-      <h2>Key Skills</h2>
-      <ul>
-        <li>Customer Service & Sales: Upselling, Relationship Management</li>
-        <li>Technical Support: Ticketing, Networking, VPN</li>
-        <li>Programming: Java, JavaScript, Python, Bash</li>
-        <li>Tools: Node.js, MongoDB, Git, Notion</li>
-        <li>Certifications: Hadoop, Software Testing</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Projects</h2>
-
-      <div class="project">
-        <div class="title">Flight Analysis System (Java)</div>
-        <div class="subtitle">Java, File I/O, Data Analysis</div>
-        <ul>
-          <li>Built to predict delays and optimize flight scheduling.</li>
-          <li>Improved decision-making speed by 30%.</li>
-        </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jaydeep Zala | Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <header class="bg-blue-900 text-white py-10 shadow-lg">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl font-bold">Jaydeep Zala</h1>
+        <p class="mt-2 text-lg">Customer Service | Technical Support | Sales Associate</p>
+        <p class="mt-1">📍 Etobicoke, ON | 📧 zalajay515@gmail.com | 📞 437-488-1488</p>
       </div>
+    </header>
 
-      <div class="project">
-        <div class="title">Encrypted Blogging Platform</div>
-        <div class="subtitle">Node.js, MongoDB, Diffie-Hellman</div>
-        <ul>
-          <li>Secure blog with encrypted messages using key exchange.</li>
-          <li>Designed responsive frontend with EJS.</li>
+    <main class="container mx-auto px-4 py-12">
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">Professional Summary</h2>
+        <p class="text-lg leading-relaxed">Proactive and results-driven professional with experience in customer service, sales, and technical support. Strong background in computer science with hands-on project experience and research contributions.</p>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">Key Skills</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          <li>Customer Service & Sales: Upselling, Relationship Management</li>
+          <li>Technical Support: Ticketing, Networking, VPN</li>
+          <li>Programming: Java, JavaScript, Python, Bash</li>
+          <li>Tools: Node.js, MongoDB, Git, Notion</li>
+          <li>Certifications: Hadoop, Software Testing</li>
         </ul>
-      </div>
+      </section>
 
-      <div class="project">
-        <div class="title">AI Vertical Farming with Drones</div>
-        <div class="subtitle">AI, IoT, Research</div>
-        <ul>
-          <li>AI-powered crop monitoring with drones and ML analysis.</li>
-          <li>Focused on optimizing vertical farm yield and water use.</li>
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Projects</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-white p-6 shadow-md rounded-lg">
+            <h3 class="text-xl font-bold">Flight Analysis System (Java)</h3>
+            <p class="text-sm text-gray-600 mb-2">Java, File I/O, Data Analysis</p>
+            <ul class="list-disc pl-5">
+              <li>Built to predict delays and optimize flight scheduling.</li>
+              <li>Improved decision-making speed by 30%.</li>
+            </ul>
+          </div>
+          <div class="bg-white p-6 shadow-md rounded-lg">
+            <h3 class="text-xl font-bold">Encrypted Blogging Platform</h3>
+            <p class="text-sm text-gray-600 mb-2">Node.js, MongoDB, Diffie-Hellman</p>
+            <ul class="list-disc pl-5">
+              <li>Secure blog with encrypted messages using key exchange.</li>
+              <li>Designed responsive frontend with EJS.</li>
+            </ul>
+          </div>
+          <div class="bg-white p-6 shadow-md rounded-lg">
+            <h3 class="text-xl font-bold">AI Vertical Farming with Drones</h3>
+            <p class="text-sm text-gray-600 mb-2">AI, IoT, Research</p>
+            <ul class="list-disc pl-5">
+              <li>AI-powered crop monitoring with drones and ML analysis.</li>
+              <li>Focused on optimizing vertical farm yield and water use.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Experience</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-lg font-bold">Volunteer Staff – University of Windsor</h3>
+            <p class="text-sm text-gray-600">Apr 2023 – Apr 2024</p>
+            <ul class="list-disc pl-5">
+              <li>Managed student support tickets and resolved technical issues with university systems.</li>
+              <li>Configured and troubleshooted VPN and network connectivity for remote access.</li>
+              <li>Improved student satisfaction through clear, efficient technical support.</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold">Technical Support Specialist – GTPL Hathway Ltd.</h3>
+            <p class="text-sm text-gray-600">Apr 2021 – Mar 2022</p>
+            <ul class="list-disc pl-5">
+              <li>Resolved 50+ daily technical issues, maintaining a 95% first-contact resolution rate.</li>
+              <li>Configured VPNs, firewalls, and performed internet troubleshooting for clients.</li>
+              <li>Maintained and deployed Office 365 applications for seamless user onboarding.</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold">Call Center Rep – Morton Food Services</h3>
+            <p class="text-sm text-gray-600">Apr 2023 – Sep 2023</p>
+            <ul class="list-disc pl-5">
+              <li>Promoted meal bundles and special offers, resulting in a 15% upsell increase.</li>
+              <li>Handled over 100 customer inquiries daily, ensuring accurate order and delivery tracking.</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold">Sales Associate – Circle K</h3>
+            <p class="text-sm text-gray-600">Jun 2022 – Dec 2022</p>
+            <ul class="list-disc pl-5">
+              <li>Performed sales transactions and actively upsold promotional products.</li>
+              <li>Assisted with restocking inventory and maintaining store presentation.</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold">Warehouse Restocker – Home Depot</h3>
+            <p class="text-sm text-gray-600">Jan 2023 – Mar 2023</p>
+            <ul class="list-disc pl-5">
+              <li>Organized and restocked high-volume items to ensure availability for customers.</li>
+              <li>Supported inventory audits and helped improve backroom efficiency.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">Education</h2>
+        <ul class="list-disc pl-5">
+          <li>University of Windsor – Master of Applied Computing (2023–2024)</li>
+          <li>Conestoga College – IT Network Security (2022)</li>
         </ul>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <section>
-      <h2>Experience</h2>
-
-      <div class="experience">
-        <div class="title">Volunteer Staff – University of Windsor</div>
-        <div class="subtitle">Apr 2023 – Apr 2024</div>
-        <ul>
-          <li><strong>⭐ Featured Experience:</strong> Managed student support tickets and resolved technical issues with university systems.</li>
-          <li>Configured and troubleshooted VPN and network connectivity for remote access.</li>
-          <li>Improved student satisfaction through clear, efficient technical support.</li>
-        </ul>
-      </div>
-
-      <div class="experience">
-        <div class="title">Technical Support Specialist – GTPL Hathway Ltd.</div>
-        <div class="subtitle">Apr 2021 – Mar 2022</div>
-        <ul>
-          <li>Resolved 50+ daily technical issues, maintaining a 95% first-contact resolution rate.</li>
-          <li>Configured VPNs, firewalls, and performed internet troubleshooting for clients.</li>
-          <li>Maintained and deployed Office 365 applications for seamless user onboarding.</li>
-        </ul>
-      </div>
-
-      <div class="experience">
-        <div class="title">Call Center Rep – Morton Food Services</div>
-        <div class="subtitle">Apr 2023 – Sep 2023</div>
-        <ul>
-          <li><strong>⭐ Featured Experience:</strong> Promoted meal bundles and special offers, resulting in a 15% upsell increase.</li>
-          <li>Handled over 100 customer inquiries daily, ensuring accurate order and delivery tracking.</li>
-        </ul>
-      </div>
-
-      <div class="experience">
-        <div class="title">Sales Associate – Circle K</div>
-        <div class="subtitle">Jun 2022 – Dec 2022</div>
-        <ul>
-          <li>Performed sales transactions and actively upsold promotional products.</li>
-          <li>Assisted with restocking inventory and maintaining store presentation.</li>
-        </ul>
-      </div>
-
-      <div class="experience">
-        <div class="title">Warehouse Restocker – Home Depot</div>
-        <div class="subtitle">Jan 2023 – Mar 2023</div>
-        <ul>
-          <li>Organized and restocked high-volume items to ensure availability for customers.</li>
-          <li>Supported inventory audits and helped improve backroom efficiency.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section>
-      <h2>Education</h2>
-      <ul>
-        <li>University of Windsor – Master of Applied Computing (2023–2024)</li>
-        <li>Conestoga College – IT Network Security (2022)</li>
-      </ul>
-    </section>
-  </div>
-
-  <footer>
-    <p>© 2025 Jaydeep Zala | Let's connect at zalajay515@gmail.com</p>
-  </footer>
-</body>
+    <footer class="bg-blue-50 text-center py-6 mt-12">
+      <p class="text-sm text-blue-900">© 2025 Jaydeep Zala | Let's connect at <a href="mailto:zalajay515@gmail.com" class="underline">zalajay515@gmail.com</a></p>
+    </footer>
+  </body>
 </html>
