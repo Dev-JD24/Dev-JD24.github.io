@@ -7,171 +7,767 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
     <style>
+      /* Reset some default spacing */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       body {
         font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #2c3e50;
+        line-height: 1.6;
+        padding-bottom: 50px;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Parallax Container */
+      .parallax-container {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Parallax Layers */
+      .parallax-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      .parallax-bg {
+        background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%);
+        transform: translateZ(-1px) scale(1.5);
+        will-change: transform;
+      }
+
+      .parallax-midground {
+        background-image: 
+          radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+          radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+        transform: translateZ(-0.5px) scale(1.2);
+        will-change: transform;
+        animation: float 20s ease-in-out infinite;
+      }
+
+      .parallax-foreground {
+        transform: translateZ(0);
+        will-change: transform;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateZ(-0.5px) scale(1.2) translateY(0px); }
+        33% { transform: translateZ(-0.5px) scale(1.2) translateY(-20px); }
+        66% { transform: translateZ(-0.5px) scale(1.2) translateY(10px); }
+      }
+
+      /* Parallax Toggle Button */
+      .parallax-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 50px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      }
+
+      .parallax-toggle:hover {
+        background: rgba(255, 255, 255, 1);
+        transform: scale(1.05);
+      }
+
+      /* Header */
+      header {
+        background: transparent;
+        color: #ffffff;
+        text-align: center;
+        padding: 3rem 1rem;
+        position: relative;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform-style: preserve-3d;
+        animation: slideInDown 1s ease-out;
+      }
+
+      @keyframes slideInDown {
+        from {
+          transform: translate3d(0, -100%, 0);
+          opacity: 0;
+        }
+        to {
+          transform: translate3d(0, 0, 0);
+          opacity: 1;
+        }
+      }
+
+      header h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        animation: glow 2s ease-in-out infinite alternate;
+        transform: translateZ(20px);
+      }
+
+      @keyframes glow {
+        from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.1); }
+        to { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.2); }
+      }
+
+      header p {
+        font-size: 1.3rem;
+        margin-top: 0.5rem;
+        opacity: 0.9;
+        animation: fadeInUp 1s ease-out 0.5s both;
+        transform: translateZ(10px);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          transform: translate3d(0, 40px, 0);
+          opacity: 0;
+        }
+        to {
+          transform: translate3d(0, 0, 0);
+          opacity: 1;
+        }
+      }
+
+      /* Scroll Indicator */
+      .scroll-indicator {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        text-align: center;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+        40% { transform: translateX(-50%) translateY(-10px); }
+        60% { transform: translateX(-50%) translateY(-5px); }
+      }
+
+      /* Main Content */
+      main {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px 20px 0 0;
+        position: relative;
+        z-index: 10;
+        margin-top: -50px;
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+      }
+
+      /* Container */
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 3rem 1rem 2rem;
+        animation: slideInUp 1s ease-out 0.3s both;
+      }
+
+      @keyframes slideInUp {
+        from {
+          transform: translate3d(0, 100px, 0);
+          opacity: 0;
+        }
+        to {
+          transform: translate3d(0, 0, 0);
+          opacity: 1;
+        }
+      }
+
+      /* Section Parallax Effects */
+      .section {
+        margin-bottom: 4rem;
+        transform: translateY(50px);
+        opacity: 0;
+        transition: all 0.8s ease-out;
+      }
+
+      .section.in-view {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* Section Titles */
+      h2 {
+        color: #0d47a1;
+        border-bottom: 3px solid #0d47a1;
+        padding-bottom: 0.5rem;
+        margin-bottom: 2rem;
+        font-size: 1.8rem;
+        font-weight: 600;
+        position: relative;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      }
+
+      h2::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #42a5f5, #1e88e5);
+        transition: width 1s ease-out;
+      }
+
+      .section.in-view h2::after {
+        width: 100%;
+      }
+
+      /* Content Boxes */
+      .project, .experience {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border-left: 5px solid #0d47a1;
+        box-shadow: 
+          0 10px 30px rgba(0,0,0,0.1),
+          0 1px 8px rgba(0,0,0,0.2);
+        border-radius: 15px;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-style: preserve-3d;
+        overflow: hidden;
+        cursor: pointer;
+        transform: translateY(30px);
+        opacity: 0;
+      }
+
+      .project.in-view, .experience.in-view {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .project:hover, .experience:hover {
+        transform: translateY(-15px) rotateX(8deg) scale(1.02);
+        box-shadow: 
+          0 25px 50px rgba(0,0,0,0.2),
+          0 15px 30px rgba(13, 71, 161, 0.15);
+      }
+
+      /* Project Icons with Parallax */
+      .project::before, .experience::before {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 2rem;
+        opacity: 0.3;
+        transition: all 0.5s ease;
+        will-change: transform;
+      }
+
+      .flight-project::before {
+        content: '✈️';
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .blog-project::before {
+        content: '🔐';
+      }
+
+      .crypto-project::before {
+        content: '₿';
+        color: #f7931a;
+      }
+
+      .food-project::before {
+        content: '🍕';
+      }
+
+      .ai-experience::before {
+        content: '🤖';
+      }
+
+      .delivery-experience::before {
+        content: '🚛';
+      }
+
+      .retail-experience::before {
+        content: '🏪';
+      }
+
+      /* Hover Animations */
+      .flight-project:hover::before {
+        opacity: 1;
+        transform: translateX(10px) rotate(15deg) scale(1.2);
+        animation: flyAround 2s ease-in-out infinite;
+      }
+
+      @keyframes flyAround {
+        0%, 100% { transform: translateX(10px) rotate(15deg) scale(1.2); }
+        50% { transform: translateX(20px) translateY(-5px) rotate(25deg) scale(1.3); }
+      }
+
+      .blog-project:hover::before {
+        opacity: 1;
+        animation: lockPulse 1s ease-in-out infinite;
+      }
+
+      @keyframes lockPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+      }
+
+      .crypto-project:hover::before {
+        opacity: 1;
+        animation: cryptoSpin 2s linear infinite;
+      }
+
+      @keyframes cryptoSpin {
+        0% { transform: rotateY(0deg) scale(1); }
+        50% { transform: rotateY(180deg) scale(1.2); }
+        100% { transform: rotateY(360deg) scale(1); }
+      }
+
+      .food-project:hover::before {
+        opacity: 1;
+        animation: foodBounce 1.5s ease-in-out infinite;
+      }
+
+      @keyframes foodBounce {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50% { transform: translateY(-10px) scale(1.1); }
+      }
+
+      /* Titles and Subtitles */
+      .title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #1a237e;
+        margin-bottom: 0.5rem;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .project:hover .title, .experience:hover .title {
+        transform: translateX(10px);
+        color: #0d47a1;
+      }
+
+      .subtitle {
+        font-style: italic;
+        color: #666;
+        margin: 0.5rem 0 1rem;
+        font-size: 1rem;
+        opacity: 0.8;
+      }
+
+      /* Lists */
+      ul {
+        padding-left: 2rem;
+        margin-top: 1rem;
+      }
+
+      ul li {
+        margin-bottom: 0.8rem;
+        position: relative;
+        transform: translateX(-20px);
+        opacity: 0;
+        transition: all 0.5s ease;
+      }
+
+      .project.in-view ul li, .experience.in-view ul li {
+        transform: translateX(0);
+        opacity: 1;
+      }
+
+      .project.in-view ul li:nth-child(1), .experience.in-view ul li:nth-child(1) { transition-delay: 0.1s; }
+      .project.in-view ul li:nth-child(2), .experience.in-view ul li:nth-child(2) { transition-delay: 0.2s; }
+      .project.in-view ul li:nth-child(3), .experience.in-view ul li:nth-child(3) { transition-delay: 0.3s; }
+      .project.in-view ul li:nth-child(4), .experience.in-view ul li:nth-child(4) { transition-delay: 0.4s; }
+      .project.in-view ul li:nth-child(5), .experience.in-view ul li:nth-child(5) { transition-delay: 0.5s; }
+
+      ul li::marker {
+        color: #0d47a1;
+        font-size: 1.2em;
+      }
+
+      /* GitHub Links */
+      a {
+        color: #1565c0;
+        text-decoration: none;
+        font-weight: 600;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #1565c0, #42a5f5);
+        transition: width 0.3s ease;
+      }
+
+      a:hover {
+        color: #0d47a1;
+        transform: translateY(-2px);
+      }
+
+      a:hover::after {
+        width: 100%;
+      }
+
+      /* Skills Grid */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .skill-category {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: scale(0.95) translateY(30px);
+        opacity: 0;
+      }
+
+      .skill-category.in-view {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+
+      .skill-category:hover {
+        transform: scale(1.05) rotateY(5deg);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      }
+
+      /* Education Section */
+      .education-card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transform: translateY(30px);
+        opacity: 0;
+        transition: all 0.8s ease-out;
+      }
+
+      .education-card.in-view {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        padding: 2rem 1rem;
+        position: relative;
+        width: 100%;
+        font-size: 1rem;
+        color: #0d47a1;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+        border-radius: 20px 20px 0 0;
+        margin-top: 3rem;
+      }
+
+      footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background: linear-gradient(90deg, #0d47a1, #42a5f5);
+        border-radius: 2px;
+      }
+
+      /* Reduced Motion Support */
+      @media (prefers-reduced-motion: reduce) {
+        .parallax-bg,
+        .parallax-midground {
+          transform: none !important;
+        }
+        
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 2.5rem;
+        }
+        
+        .container {
+          padding: 2rem 1rem;
+        }
+        
+        h2 {
+          font-size: 1.5rem;
+        }
+        
+        .title {
+          font-size: 1.2rem;
+        }
+        
+        .project, .experience {
+          padding: 1.5rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .parallax-toggle {
+          top: 10px;
+          right: 10px;
+          padding: 8px 16px;
+          font-size: 0.8rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        header {
+          padding: 2rem 1rem;
+        }
+        
+        header h1 {
+          font-size: 2rem;
+        }
+        
+        .project, .experience {
+          padding: 1rem;
+          border-radius: 10px;
+        }
+        
+        .skills-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
       }
     </style>
   </head>
-  <body class="bg-gray-50 text-gray-800">
-    <header class="bg-blue-900 text-white py-10 shadow-lg">
-      <div class="container mx-auto px-4 text-center">
-        <h1 class="text-4xl font-bold">Jaydeep Zala</h1>
-        <p class="mt-2 text-lg">AI Support & Technical Analyst | Customer Service | Technical Support</p>
-        <p class="mt-1">📍 Etobicoke, ON | 📧 zalajay515@gmail.com | 📞 +1(437) 488-1488</p>
+  <body>
+    <!-- Parallax Toggle Button -->
+    <button class="parallax-toggle" onclick="toggleParallax()">
+      <span id="toggle-text">Disable Parallax</span>
+    </button>
+
+    <!-- Parallax Header Section -->
+    <div class="parallax-container">
+      <div class="parallax-layer parallax-bg"></div>
+      <div class="parallax-layer parallax-midground"></div>
+      <div class="parallax-layer parallax-foreground">
+        <header>
+          <h1>Jaydeep Zala</h1>
+          <p>AI Support & Technical Analyst | Customer Service | Technical Support</p>
+          <p>📍 Etobicoke, ON | 📧 zalajay515@gmail.com | 📞 +1(437) 488-1488</p>
+          <div class="scroll-indicator">
+            <div style="margin-bottom: 10px;">↓</div>
+            <div style="font-size: 0.9rem;">Scroll to explore</div>
+          </div>
+        </header>
       </div>
-    </header>
+    </div>
 
-    <main class="container mx-auto px-4 py-12">
-      <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">Professional Summary</h2>
-        <p class="text-lg leading-relaxed">Results-driven AI Support & Technical Analyst with extensive experience in remote technical support, customer relationship management, and system troubleshooting. Proven track record of increasing customer satisfaction by 78% and reducing operational issues through innovative problem-solving approaches. Strong background in computer science with hands-on project experience in AI systems, web development, and data analysis.</p>
-      </section>
+    <main>
+      <div class="container">
+        <section class="section">
+          <h2>Professional Summary</h2>
+          <p style="font-size: 1.1rem; line-height: 1.8;">Results-driven AI Support & Technical Analyst with extensive experience in remote technical support, customer relationship management, and system troubleshooting. Proven track record of increasing customer satisfaction by 78% and reducing operational issues through innovative problem-solving approaches. Strong background in computer science with hands-on project experience in AI systems, web development, and data analysis.</p>
+        </section>
 
-      <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">Key Skills</h2>
-        <div class="grid md:grid-cols-3 gap-6">
-          <div>
-            <h3 class="font-semibold text-blue-700 mb-2">Technical Skills</h3>
-            <ul class="list-disc pl-5 space-y-1 text-sm">
-              <li>Remote Technical Support</li>
-              <li>System Performance Monitoring</li>
-              <li>Equipment Handling</li>
-              <li>Inventory Management</li>
-              <li>Troubleshooting</li>
-            </ul>
+        <section class="section">
+          <h2>Key Skills</h2>
+          <div class="skills-grid">
+            <div class="skill-category">
+              <h3 style="font-weight: 600; color: #0d47a1; margin-bottom: 1rem;">Technical Skills</h3>
+              <ul style="list-style-type: disc; padding-left: 1.5rem;">
+                <li>Remote Technical Support</li>
+                <li>System Performance Monitoring</li>
+                <li>Equipment Handling</li>
+                <li>Inventory Management</li>
+                <li>Troubleshooting</li>
+              </ul>
+            </div>
+            <div class="skill-category">
+              <h3 style="font-weight: 600; color: #0d47a1; margin-bottom: 1rem;">Software Knowledge</h3>
+              <ul style="list-style-type: disc; padding-left: 1.5rem;">
+                <li>MS Office, Office 365</li>
+                <li>Remote Support Systems</li>
+                <li>Ticketing Systems</li>
+                <li>Windows Operating Systems</li>
+                <li>Java, JavaScript, Python, Django</li>
+              </ul>
+            </div>
+            <div class="skill-category">
+              <h3 style="font-weight: 600; color: #0d47a1; margin-bottom: 1rem;">Soft Skills</h3>
+              <ul style="list-style-type: disc; padding-left: 1.5rem;">
+                <li>Customer Relationship Management</li>
+                <li>Effective Communication</li>
+                <li>Time Management</li>
+                <li>Problem Solving</li>
+                <li>Team Collaboration & Leadership</li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <h3 class="font-semibold text-blue-700 mb-2">Software Knowledge</h3>
-            <ul class="list-disc pl-5 space-y-1 text-sm">
-              <li>MS Office, Office 365</li>
-              <li>Remote Support Systems</li>
-              <li>Ticketing Systems</li>
-              <li>Windows Operating Systems</li>
-              <li>Java, JavaScript, Python, Django</li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="font-semibold text-blue-700 mb-2">Soft Skills</h3>
-            <ul class="list-disc pl-5 space-y-1 text-sm">
-              <li>Customer Relationship Management</li>
-              <li>Effective Communication</li>
-              <li>Time Management</li>
-              <li>Problem Solving</li>
-              <li>Team Collaboration & Leadership</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Projects</h2>
-        <div class="grid md:grid-cols-2 gap-8">
-          <div class="project flight-project" data-info="✈️ AI-Powered Flight Analytics">
-            <h3 class="title">Flight Analysis System</h3>
-            <p class="subtitle">Java, File I/O, Data Analysis</p>
-            <ul class="list-disc pl-5 mb-3">
-              <li>Built comprehensive system to predict flight delays and optimize scheduling</li>
-              <li>Improved decision-making speed by 30% through advanced data analysis</li>
-              <li>Implemented efficient algorithms for processing large datasets</li>
-            </ul>
-            <a href="https://github.com/Dev-JD24/Flight_Price_Analysis_System" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View on GitHub →</a>
+        <section class="section">
+          <h2>Projects</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+            <div class="project flight-project">
+              <h3 class="title">Flight Analysis System</h3>
+              <p class="subtitle">Java, File I/O, Data Analysis</p>
+              <ul>
+                <li>Built comprehensive system to predict flight delays and optimize scheduling</li>
+                <li>Improved decision-making speed by 30% through advanced data analysis</li>
+                <li>Implemented efficient algorithms for processing large datasets</li>
+              </ul>
+              <a href="https://github.com/Dev-JD24/Flight_Price_Analysis_System" target="_blank">View on GitHub →</a>
+            </div>
+            <div class="project blog-project">
+              <h3 class="title">Encrypted Blogging Platform</h3>
+              <p class="subtitle">Node.js, MongoDB, Diffie-Hellman</p>
+              <ul>
+                <li>Secure blog platform with encrypted messaging using key exchange</li>
+                <li>Designed responsive frontend with EJS templating</li>
+                <li>Implemented user authentication and secure data storage</li>
+              </ul>
+              <a href="https://github.com/sga-07/IntershipII" target="_blank">View on GitHub →</a>
+            </div>
+            <div class="project crypto-project">
+              <h3 class="title">Trading Beez - Crypto Trading Platform</h3>
+              <p class="subtitle">Python Django, Blockchain APIs, LLM Algorithms</p>
+              <ul>
+                <li>Cryptocurrency price analysis and trading platform</li>
+                <li>Integrated blockchain APIs for real-time market data</li>
+                <li>Implemented LLM algorithms for predictive trading insights</li>
+                <li>Built comprehensive dashboard for portfolio management</li>
+              </ul>
+              <a href="https://github.com/dream00014/COMP-8347-Project" target="_blank">View on GitHub →</a>
+            </div>
+            <div class="project food-project">
+              <h3 class="title">Foodies - Food Ordering Platform</h3>
+              <p class="subtitle">Python Django, Google Maps API</p>
+              <ul>
+                <li>Complete food ordering and tracking system</li>
+                <li>Live Google Maps integration for delivery tracking</li>
+                <li>Real-time order status updates and notifications</li>
+                <li>User-friendly interface with responsive design</li>
+              </ul>
+              <a href="https://github.com/PauravThakkar/foodies" target="_blank">View on GitHub →</a>
+            </div>
           </div>
-          <div class="project blog-project" data-info="🔐 Secure Communication Platform">
-            <h3 class="title">Encrypted Blogging Platform</h3>
-            <p class="subtitle">Node.js, MongoDB, Diffie-Hellman</p>
-            <ul class="list-disc pl-5 mb-3">
-              <li>Secure blog platform with encrypted messaging using key exchange</li>
-              <li>Designed responsive frontend with EJS templating</li>
-              <li>Implemented user authentication and secure data storage</li>
-            </ul>
-            <a href="https://github.com/sga-07/IntershipII" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View on GitHub →</a>
-          </div>
-          <div class="project crypto-project" data-info="₿ Advanced Crypto Analytics">
-            <h3 class="title">Trading Beez - Crypto Trading Platform</h3>
-            <p class="subtitle">Python Django, Blockchain APIs, LLM Algorithms</p>
-            <ul class="list-disc pl-5 mb-3">
-              <li>Cryptocurrency price analysis and trading platform</li>
-              <li>Integrated blockchain APIs for real-time market data</li>
-              <li>Implemented LLM algorithms for predictive trading insights</li>
-              <li>Built comprehensive dashboard for portfolio management</li>
-            </ul>
-            <a href="https://github.com/dream00014/COMP-8347-Project" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View on GitHub →</a>
-          </div>
-          <div class="project food-project" data-info="🍕 Real-time Food Delivery">
-            <h3 class="title">Foodies - Food Ordering Platform</h3>
-            <p class="subtitle">Python Django, Google Maps API</p>
-            <ul class="list-disc pl-5 mb-3">
-              <li>Complete food ordering and tracking system</li>
-              <li>Live Google Maps integration for delivery tracking</li>
-              <li>Real-time order status updates and notifications</li>
-              <li>User-friendly interface with responsive design</li>
-            </ul>
-            <a href="https://github.com/PauravThakkar/foodies" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View on GitHub →</a>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Experience</h2>
-        <div class="space-y-6">
-          <div class="experience ai-experience" data-info="🤖 AI Systems & Analytics">
-            <h3 class="title">AI Support & Technical Analyst – Outlier AI (Remote)</h3>
-            <p class="subtitle">Jan 2024 – Present</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Achieved a 78% increase in customer satisfaction by providing remote technical support & troubleshooting for AI systems, ensuring high accuracy and quality of responses</li>
-              <li>Decreased recurring customer issues by 50% by facilitating cross-departmental workshops and establishing shared problem-solving frameworks, resulting in enhanced operational efficiency</li>
-              <li>Increased junior analyst performance by 40% by providing structured mentoring and knowledge sharing sessions, resulting in faster onboarding and improved team capabilities</li>
-              <li>Implemented a feedback loop system, allowing for continual adjustments based on user input, leading to noticeable enhancements in service quality</li>
-            </ul>
+        <section class="section">
+          <h2>Experience</h2>
+          <div style="space-y: 2rem;">
+            <div class="experience ai-experience">
+              <h3 class="title">AI Support & Technical Analyst – Outlier AI (Remote)</h3>
+              <p class="subtitle">Jan 2024 – Present</p>
+              <ul>
+                <li>Achieved a 78% increase in customer satisfaction by providing remote technical support & troubleshooting for AI systems, ensuring high accuracy and quality of responses</li>
+                <li>Decreased recurring customer issues by 50% by facilitating cross-departmental workshops and establishing shared problem-solving frameworks, resulting in enhanced operational efficiency</li>
+                <li>Increased junior analyst performance by 40% by providing structured mentoring and knowledge sharing sessions, resulting in faster onboarding and improved team capabilities</li>
+                <li>Implemented a feedback loop system, allowing for continual adjustments based on user input, leading to noticeable enhancements in service quality</li>
+              </ul>
+            </div>
+            <div class="experience delivery-experience">
+              <h3 class="title">Warehouse Delivery Driver – Morton Food Services</h3>
+              <p class="subtitle">Nov 2023 – Dec 2023</p>
+              <ul>
+                <li>Enhanced delivery efficiency by 84% by operating delivery vehicles & ensuring timely delivery of products, demonstrating reliability and attention to detail</li>
+                <li>Reduced POS issue resolution time by 15%, improving transaction flow and support operations</li>
+                <li>Optimized ticketing systems and authored user guides to streamline client self-service</li>
+              </ul>
+            </div>
+            <div class="experience retail-experience">
+              <h3 class="title">Customer Associate – Home Depot</h3>
+              <p class="subtitle">Apr 2023 – Nov 2023</p>
+              <ul>
+                <li>Improved stock accuracy by 25% by implementing systematic inventory tracking procedures, resulting in reduced out-of-stock incidents and 15% faster restocking cycles</li>
+                <li>Increased customer retention by 20% by analyzing feedback data to identify service gaps and implementing targeted training programs, resulting in improved customer satisfaction scores</li>
+                <li>Boosted department sales by 18% by collaborating with team members to redesign floor layouts and optimize product placement, resulting in enhanced product visibility and customer flow</li>
+                <li>Reduced customer complaint resolution time by 40% by establishing a structured feedback collection system, resulting in improved operational efficiency and higher customer satisfaction ratings</li>
+                <li>Increased impulse purchases by 30% by redesigning product displays using visual merchandising techniques, resulting in measurable sales growth in featured product categories</li>
+              </ul>
+            </div>
           </div>
-          <div class="experience delivery-experience" data-info="🚛 Logistics & Operations">
-            <h3 class="title">Warehouse Delivery Driver – Morton Food Services</h3>
-            <p class="subtitle">Nov 2023 – Dec 2023</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Enhanced delivery efficiency by 84% by operating delivery vehicles & ensuring timely delivery of products, demonstrating reliability and attention to detail</li>
-              <li>Reduced POS issue resolution time by 15%, improving transaction flow and support operations</li>
-              <li>Optimized ticketing systems and authored user guides to streamline client self-service</li>
-            </ul>
-          </div>
-          <div class="experience retail-experience" data-info="🏪 Customer Excellence">
-            <h3 class="title">Customer Associate – Home Depot</h3>
-            <p class="subtitle">Apr 2023 – Nov 2023</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li>Improved stock accuracy by 25% by implementing systematic inventory tracking procedures, resulting in reduced out-of-stock incidents and 15% faster restocking cycles</li>
-              <li>Increased customer retention by 20% by analyzing feedback data to identify service gaps and implementing targeted training programs, resulting in improved customer satisfaction scores</li>
-              <li>Boosted department sales by 18% by collaborating with team members to redesign floor layouts and optimize product placement, resulting in enhanced product visibility and customer flow</li>
-              <li>Reduced customer complaint resolution time by 40% by establishing a structured feedback collection system, resulting in improved operational efficiency and higher customer satisfaction ratings</li>
-              <li>Increased impulse purchases by 30% by redesigning product displays using visual merchandising techniques, resulting in measurable sales growth in featured product categories</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section>
-        <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">Education</h2>
-        <div class="bg-white p-6 shadow-md rounded-lg">
-          <div class="mb-4">
-            <h3 class="text-lg font-bold">University of Windsor, ON</h3>
-            <p class="text-gray-600">Master of Applied Computing (2023–2024)</p>
+        <section class="section">
+          <h2>Education</h2>
+          <div class="education-card">
+            <div style="margin-bottom: 1.5rem;">
+              <h3 style="font-size: 1.2rem; font-weight: 700; color: #1a237e;">University of Windsor, ON</h3>
+              <p style="color: #666; margin-top: 0.5rem;">Master of Applied Computing (2023–2024)</p>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+              <h3 style="font-size: 1.2rem; font-weight: 700; color: #1a237e;">Conestoga College, ON</h3>
+              <p style="color: #666; margin-top: 0.5rem;">Information Technology Network Security Certificate (2022)</p>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <h4 style="font-weight: 600; color: #0d47a1; margin-bottom: 0.5rem;">Relevant Courses:</h4>
+              <p style="font-size: 0.95rem;">Advanced Database Topics, Advanced Software Engineering, Networking, Managing Employees, Cloud Network Security, Windows Infrastructure, Fundamentals of Information Security</p>
+            </div>
+            <div>
+              <h4 style="font-weight: 600; color: #0d47a1; margin-bottom: 0.5rem;">Concentration:</h4>
+              <p style="font-size: 0.95rem;">Technical Troubleshooting, Network Security, System Maintenance</p>
+            </div>
           </div>
-          <div class="mb-4">
-            <h3 class="text-lg font-bold">Conestoga College, ON</h3>
-            <p class="text-gray-600">Information Technology Network Security Certificate (2022)</p>
-          </div>
-          <div class="mb-4">
-            <h4 class="font-semibold text-blue-700">Relevant Courses:</h4>
-            <p class="text-sm">Advanced Database Topics, Advanced Software Engineering, Networking, Managing Employees, Cloud Network Security, Windows Infrastructure, Fundamentals of Information Security</p>
-          </div>
-          <div>
-            <h4 class="font-semibold text-blue-700">Concentration:</h4>
-            <p class="text-sm">Technical Troubleshooting, Network Security, System Maintenance</p>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
 
-    <footer class="bg-blue-50 text-center py-6 mt-12">
-      <p class="text-sm text-blue-900">© 2025 Jaydeep Zala | Let's connect at <a href="mailto:zalajay515@gmail.com" class="underline">zalajay515@gmail.com</a></p>
+    <footer>
+      <p>© 2025 Jaydeep Zala | Let's connect at <a href="mailto:zalajay515@gmail.com">zalajay515@gmail.com</a></p>
     </footer>
-  </body>
-</html>
+
+    <script>
+      let parallaxEnabled = true;
+
+      // Parallax scrolling effect
+      function updateParallax() {
+        if (!parallaxEnabled) return;
+
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+        const rateTop = scrolled * 0.3;
+        
+        const parallaxBg = document.querySelector('.parallax-bg');
+        const parallaxMidground = document.querySelector('.parallax-midground');
+        
+        if (parallaxBg) {
+          parallaxBg.style.transform = `translateY(${rate}px)`;
+        }
+        
+        if (parallaxMidground) {
+          parallaxMidground.style.transform = `translateY(${rateTop}px)`;
+        }
+
+        // Parallax effect
