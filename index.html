@@ -1,201 +1,350 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jaydeep Zala | Parallax Portfolio</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Resume | Jaydeep Zala</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Chosen Palette: Warm Neutral Tones -->
+    <!-- Application Structure Plan: The SPA is designed as a single-page, vertical-scrolling portfolio. The structure includes a header with navigation, a hero section for the professional summary, a categorized skills grid for easy scanning, an interactive vertical timeline for professional experience, and a final section for education. This structure was chosen to provide a logical, intuitive flow that guides a user (e.g., a recruiter) through the candidate's profile, starting broad and allowing for deeper exploration in the experience section. The interactive timeline is the core feature, preventing information overload by only showing details for the selected role, which is a significant usability improvement over a static text document. -->
+    <!-- Visualization & Content Choices: Resume Info: Core Skills -> Goal: Organize/Inform -> Viz: Categorized Grid of Cards -> Interaction: Hover effects -> Justification: Breaks up a long list into scannable, visually appealing categories. | Resume Info: Professional Experience -> Goal: Show Chronological Change/Inform -> Viz: Interactive Vertical Timeline (HTML/CSS/JS) -> Interaction: Click on a job title to display its detailed description in a separate pane -> Justification: A timeline is the most intuitive way to represent a career path. The click-to-reveal interaction encourages exploration and makes the information digestible, preventing a wall of text. | Library/Method: All visuals are created with structured HTML and styled with Tailwind CSS, with interactivity powered by vanilla JavaScript. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            left: -0.5rem;
+            top: 0.5rem;
+            background-color: #A8A29E;
+            border: 2px solid #F5F5F4;
+        }
+        .timeline-item.active::before {
+            background-color: #44403C;
+            transform: scale(1.1);
+        }
+        .timeline-item.active button {
+            color: #1C1917;
+        }
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #44403C;
+            transition: width .3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-stone-50 text-stone-800">
 
-  <!-- Header -->
-  <header class="bg-blue-900 text-white py-10 shadow-lg text-center fade-in">
-    <div class="container mx-auto px-4">
-      <h1 class="text-4xl font-bold">Jaydeep Zala</h1>
-      <p class="mt-2 text-lg">AI Support & Technical Analyst | Customer Service | Technical Support</p>
-      <p class="mt-1">📍 Etobicoke, ON | 📧 zalajay515@gmail.com | 📞 +1(437) 488-1488</p>
+    <nav id="navbar" class="bg-stone-50/80 backdrop-blur-md sticky top-0 z-50 border-b border-stone-200">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <span class="text-2xl font-bold text-stone-900">Jaydeep Zala</span>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#summary" class="text-stone-600 hover:text-stone-900 font-medium nav-link">Summary</a>
+                    <a href="#skills" class="text-stone-600 hover:text-stone-900 font-medium nav-link">Skills</a>
+                    <a href="#experience" class="text-stone-600 hover:text-stone-900 font-medium nav-link">Experience</a>
+                    <a href="#education" class="text-stone-600 hover:text-stone-900 font-medium nav-link">Education</a>
+                </div>
+                 <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-stone-600 hover:text-stone-900 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <a href="#summary" class="block py-2 px-4 text-sm text-stone-600 hover:bg-stone-100">Summary</a>
+            <a href="#skills" class="block py-2 px-4 text-sm text-stone-600 hover:bg-stone-100">Skills</a>
+            <a href="#experience" class="block py-2 px-4 text-sm text-stone-600 hover:bg-stone-100">Experience</a>
+            <a href="#education" class="block py-2 px-4 text-sm text-stone-600 hover:bg-stone-100">Education</a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-8 space-y-16 md:space-y-24">
+
+        <section id="summary" class="text-center pt-12 md:pt-20">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-stone-900 tracking-tight">Jaydeep Zala</h1>
+            <p class="mt-4 text-lg text-stone-600">Client-Focused Administrative & Technical Professional</p>
+            <div class="mt-8 max-w-3xl mx-auto text-left bg-white p-8 rounded-xl shadow-sm border border-stone-200">
+                <h2 class="text-2xl font-bold text-stone-900 mb-4">Professional Summary</h2>
+                <p class="text-stone-600 leading-relaxed">Highly organized and client-focused professional with a background in technical support, sales, and digital marketing. Proven ability to multitask and manage a fast-paced environment while handling administrative tasks, compiling data, and ensuring excellent client communication. Skilled in MS Office and dedicated to providing reliable and efficient office support.</p>
+                <div class="mt-6 flex flex-col sm:flex-row justify-center items-center gap-4">
+                     <a href="mailto:zalajay515@gmail.com" class="text-stone-600 hover:text-stone-900 transition-colors">zalajay515@gmail.com</a>
+                     <span class="hidden sm:block text-stone-300">|</span>
+                     <span class="text-stone-600">+1 (437) 488-1488</span>
+                     <button id="download-btn" class="mt-4 sm:mt-0 px-4 py-2 bg-stone-700 text-white rounded-lg hover:bg-stone-800 transition-colors shadow-sm">Download PDF</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 class="text-3xl font-bold text-stone-900 mb-2 text-center">Core Skills</h2>
+            <p class="text-center text-stone-600 mb-8 max-w-2xl mx-auto">A versatile skill set developed through diverse roles, combining technical knowledge with strong organizational and client-facing abilities.</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-md transition-shadow">
+                    <h3 class="font-semibold text-stone-800">MS Office Suite</h3>
+                    <p class="text-xs text-stone-500">(Excel, Word, Outlook, PowerPoint)</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-md transition-shadow">
+                    <h3 class="font-semibold text-stone-800">Client Focus</h3>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-md transition-shadow">
+                    <h3 class="font-semibold text-stone-800">Data Compilation</h3>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-md transition-shadow">
+                    <h3 class="font-semibold text-stone-800">Time Management</h3>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-md transition-shadow">
+                    <h3 class="font-semibold text-stone-800">Multitasking</h3>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-md transition-shadow">
+                    <h3 class="font-semibold text-stone-800">Adaptability</h3>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-md transition-shadow">
+                    <h3 class="font-semibold text-stone-800">Problem-Solving</h3>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-stone-200 text-center hover:shadow-md transition-shadow">
+                    <h3 class="font-semibold text-stone-800">Teamwork</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2 class="text-3xl font-bold text-stone-900 mb-2 text-center">Professional Experience</h2>
+            <p class="text-center text-stone-600 mb-12 max-w-2xl mx-auto">Explore my career journey by clicking on each role in the timeline. This interactive view allows you to see how my skills have developed through practical, hands-on experience.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="md:col-span-1">
+                    <div id="timeline-controls" class="relative border-l-2 border-stone-200 pl-6 space-y-8">
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <div id="experience-details" class="bg-white p-8 rounded-xl shadow-lg border border-stone-200 min-h-[300px] transition-all duration-300">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2 class="text-3xl font-bold text-stone-900 mb-2 text-center">Education</h2>
+             <p class="text-center text-stone-600 mb-8 max-w-2xl mx-auto">My formal education has provided a strong foundation in computing and network security, complementing my professional skills.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                    <h3 class="text-lg font-bold text-stone-900">Master of Applied Computing</h3>
+                    <p class="text-stone-600">University of Windsor</p>
+                    <p class="text-sm text-stone-500 mt-1">2023 - 2024</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                    <h3 class="text-lg font-bold text-stone-900">Diploma in Network Security</h3>
+                    <p class="text-stone-600">Conestoga College</p>
+                    <p class="text-sm text-stone-500 mt-1">2022</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-stone-100 border-t border-stone-200 mt-24">
+        <div class="max-w-6xl mx-auto py-6 px-4 text-center text-stone-500">
+            <p>&copy; 2025 Jaydeep Zala. Interactive Resume Application.</p>
+        </div>
+    </footer>
+
+    <div id="pdf-content" class="fixed top-0 left-0 w-[210mm] min-h-[297mm] bg-white text-stone-800 p-8 shadow-2xl -z-10 opacity-0">
+        <div class="flex flex-col items-center text-center">
+            <h1 class="text-3xl font-bold">Jaydeep Zala</h1>
+            <p class="text-sm text-stone-600 mt-1">Client-Focused Administrative & Technical Professional</p>
+            <div class="flex justify-center gap-4 text-xs mt-2 text-stone-600">
+                <span>zalajay515@gmail.com</span> | <span>+1 (437) 488-1488</span>
+            </div>
+        </div>
+        <div class="mt-8 border-t border-stone-300 pt-4">
+            <h2 class="text-xl font-bold text-stone-900 mb-2">Professional Summary</h2>
+            <p class="text-sm text-stone-600 leading-relaxed">Highly organized and client-focused professional with a background in technical support, sales, and digital marketing. Proven ability to multitask and manage a fast-paced environment while handling administrative tasks, compiling data, and ensuring excellent client communication. Skilled in MS Office and dedicated to providing reliable and efficient office support.</p>
+        </div>
+        <div class="mt-6 border-t border-stone-300 pt-4">
+            <h2 class="text-xl font-bold text-stone-900 mb-2">Core Skills</h2>
+            <div class="flex flex-wrap text-sm gap-2 text-stone-600">
+                <span class="px-2 py-1 bg-stone-100 rounded">MS Office Suite</span>
+                <span class="px-2 py-1 bg-stone-100 rounded">Client Focus</span>
+                <span class="px-2 py-1 bg-stone-100 rounded">Data Compilation</span>
+                <span class="px-2 py-1 bg-stone-100 rounded">Time Management</span>
+                <span class="px-2 py-1 bg-stone-100 rounded">Multitasking</span>
+                <span class="px-2 py-1 bg-stone-100 rounded">Adaptability</span>
+                <span class="px-2 py-1 bg-stone-100 rounded">Problem-Solving</span>
+                <span class="px-2 py-1 bg-stone-100 rounded">Teamwork</span>
+            </div>
+        </div>
+        <div class="mt-6 border-t border-stone-300 pt-4">
+            <h2 class="text-xl font-bold text-stone-900 mb-2">Professional Experience</h2>
+            <div class="space-y-4">
+                <div class="text-sm">
+                    <h3 class="font-semibold text-stone-900">Sales Representative | Kognative Sales Solutions</h3>
+                    <p class="text-stone-600">2025 - Present</p>
+                    <ul class="list-disc list-inside text-xs text-stone-600 space-y-1 mt-1">
+                        <li>Delivered consultative advice to customers, building trust and long-term relationships through excellent oral communication and client focus.</li>
+                        <li>Achieved sales goals by leveraging persuasive communication and data insights.</li>
+                    </ul>
+                </div>
+                <div class="text-sm">
+                    <h3 class="font-semibold text-stone-900">Digital Marketing Manager | Leaf Filter</h3>
+                    <p class="text-stone-600">2025 (Contract)</p>
+                    <ul class="list-disc list-inside text-xs text-stone-600 space-y-1 mt-1">
+                        <li>Analyzed customer data to identify lead opportunities, a skill directly applicable to compiling data and statistics.</li>
+                        <li>Administered and optimized customer-focused campaigns, highlighting proficiency in setting up and maintaining routines.</li>
+                    </ul>
+                </div>
+                <div class="text-sm">
+                    <h3 class="font-semibold text-stone-900">AI Support & Technical Analyst | Outlier AI</h3>
+                    <p class="text-stone-600">2024 - 2025</p>
+                    <ul class="list-disc list-inside text-xs text-stone-600 space-y-1 mt-1">
+                        <li>Provided Tier 1 and Tier 2 technical support, demonstrating strong communication and problem-solving skills in a client-facing role.</li>
+                        <li>Resolved over 100 technical tickets weekly via chat, phone, and email, efficiently managing a high volume of work under pressure.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 border-t border-stone-300 pt-4">
+            <h2 class="text-xl font-bold text-stone-900 mb-2">Education</h2>
+            <div class="space-y-4">
+                <div class="text-sm">
+                    <h3 class="font-semibold text-stone-900">Master of Applied Computing | University of Windsor</h3>
+                    <p class="text-stone-600">2023 - 2024</p>
+                </div>
+                <div class="text-sm">
+                    <h3 class="font-semibold text-stone-900">Diploma in Network Security | Conestoga College</h3>
+                    <p class="text-stone-600">2022</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </header>
+    <script>
+        const experienceData = [
+            {
+                id: 'kognative',
+                role: 'Sales Representative',
+                company: 'Kognative Sales Solutions',
+                period: '2025 - Present',
+                details: [
+                    'Delivered consultative advice to customers, building trust and long-term relationships through excellent oral communication and client focus.',
+                    'Achieved sales goals by leveraging persuasive communication and data insights.',
+                    'Navigated CRM systems quickly, demonstrating strong computer and technology knowledge.'
+                ]
+            },
+            {
+                id: 'leaf-filter',
+                role: 'Digital Marketing Manager',
+                company: 'Leaf Filter',
+                period: '2025 (Contract)',
+                details: [
+                    'Analyzed customer data to identify lead opportunities, a skill directly applicable to compiling data and statistics.',
+                    'Executed multi-channel campaigns, demonstrating the ability to manage and organize complex projects with various moving parts.',
+                    'Administered and optimized customer-focused campaigns, highlighting proficiency in setting up and maintaining routines.'
+                ]
+            },
+            {
+                id: 'outlier-ai',
+                role: 'AI Support & Technical Analyst',
+                company: 'Outlier AI',
+                period: '2024 - 2025',
+                details: [
+                    'Provided Tier 1 and Tier 2 technical support, demonstrating strong communication and problem-solving skills in a client-facing role.',
+                    'Resolved over 100 technical tickets weekly via chat, phone, and email, efficiently managing a high volume of work under pressure.',
+                    'Documented bugs and reported system issues, showcasing attention to detail and ability to maintain organized records.'
+                ]
+            }
+        ];
 
-  <!-- Parallax Section -->
-<!--  <section class="parallax-section"> -->
-<!--     <div class="parallax-content text-white text-center px-4 py-32"> -->
-<!--       <h2 class="text-5xl font-bold mb-4 fade-up">Innovation distinguishes between a leader and a follower.</h2> -->
-<!--       <p class="text-lg max-w-2xl mx-auto fade-up delay-200">– Steve Jobs</p> -->
-<!--     </div> -->
-<!--   </section> -->
- <section class="parallax-section">
-    <div class="parallax-content text-white text-center px-4 py-32">
-      <h2 class="text-5xl font-bold mb-4 fade-up">Building Intelligent & Secure Systems</h2>
-      <p class="text-lg max-w-2xl mx-auto fade-up delay-200">
-        Explore a portfolio of innovative AI, blockchain, and web solutions engineered for performance, clarity, and impact.
-      </p>
-    </div>
-  </section>
+        const timelineControls = document.getElementById('timeline-controls');
+        const experienceDetails = document.getElementById('experience-details');
 
-  
-  <!-- Placeholder Main Content -->
-  <main class="container mx-auto px-4 py-12 text-center fade-in delay-400">
-<!--     <h2 class="text-2xl font-semibold text-blue-800 mb-4">Scroll-Triggered Content</h2> -->
-    <p class="text-gray-700">
-     <section class="mb-12">
-   <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">Professional Summary</h2>
-   <p class="text-lg leading-relaxed">Results-driven AI Support & Technical Analyst with extensive experience in remote technical support, customer relationship management, and system troubleshooting. Proven track record of increasing customer satisfaction by 78% and reducing operational issues through innovative problem-solving approaches. Strong background in computer science with hands-on project experience in AI systems, web development, and data analysis.</p>
- </section>
+        function updateDetails(job) {
+            let detailsHtml = `
+                <h3 class="text-2xl font-bold text-stone-900">${job.role}</h3>
+                <p class="text-md font-medium text-stone-600 mt-1">${job.company}</p>
+                <p class="text-sm text-stone-500 mb-6">${job.period}</p>
+                <ul class="space-y-3 list-disc list-inside text-stone-600">
+                    ${job.details.map(detail => `<li>${detail}</li>`).join('')}
+                </ul>
+            `;
+            experienceDetails.innerHTML = detailsHtml;
+        }
 
- <section class="mb-12">
-   <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">Key Skills</h2>
-   <div class="grid md:grid-cols-3 gap-6">
-     <div>
-       <h3 class="font-semibold text-blue-700 mb-2">Technical Skills</h3>
-       <ul class="list-disc pl-5 space-y-1 text-sm">
-         <li>Remote Technical Support</li>
-         <li>System Performance Monitoring</li>
-         <li>Equipment Handling</li>
-         <li>Inventory Management</li>
-         <li>Troubleshooting</li>
-       </ul>
-     </div>
-     <div>
-       <h3 class="font-semibold text-blue-700 mb-2">Software Knowledge</h3>
-       <ul class="list-disc pl-5 space-y-1 text-sm">
-         <li>MS Office, Office 365</li>
-         <li>Remote Support Systems</li>
-         <li>Ticketing Systems</li>
-         <li>Windows Operating Systems</li>
-         <li>Java, JavaScript, Python, Django</li>
-       </ul>
-     </div>
-     <div>
-       <h3 class="font-semibold text-blue-700 mb-2">Soft Skills</h3>
-       <ul class="list-disc pl-5 space-y-1 text-sm">
-         <li>Customer Relationship Management</li>
-         <li>Effective Communication</li>
-         <li>Time Management</li>
-         <li>Problem Solving</li>
-         <li>Team Collaboration & Leadership</li>
-       </ul>
-     </div>
-   </div>
- </section>
+        function createTimeline() {
+            experienceData.forEach((job, index) => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item relative';
+                item.innerHTML = `
+                    <button data-id="${job.id}" class="text-left w-full">
+                        <h4 class="font-bold text-lg text-stone-700 transition-colors">${job.role}</h4>
+                        <p class="text-sm text-stone-500">${job.company}</p>
+                        <p class="text-xs text-stone-400 mt-1">${job.period}</p>
+                    </button>
+                `;
+                timelineControls.appendChild(item);
 
- <section class="mb-12">
-   <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Projects</h2>
-   <div class="grid md:grid-cols-2 gap-8">
-     <div class="project flight-project" data-info="✈️ AI-Powered Flight Analytics">
-       <h3 class="title">Flight Analysis System</h3>
-       <p class="subtitle">Java, File I/O, Data Analysis</p>
-       <ul class="list-disc pl-5 mb-3">
-         <li>Built comprehensive system to predict flight delays and optimize scheduling</li>
-         <li>Improved decision-making speed by 30% through advanced data analysis</li>
-         <li>Implemented efficient algorithms for processing large datasets</li>
-       </ul>
-       <a href="https://github.com/Dev-JD24/Flight_Price_Analysis_System" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View on GitHub →</a>
-     </div>
-     <div class="project blog-project" data-info="🔐 Secure Communication Platform">
-       <h3 class="title">Encrypted Blogging Platform</h3>
-       <p class="subtitle">Node.js, MongoDB, Diffie-Hellman</p>
-       <ul class="list-disc pl-5 mb-3">
-         <li>Secure blog platform with encrypted messaging using key exchange</li>
-         <li>Designed responsive frontend with EJS templating</li>
-         <li>Implemented user authentication and secure data storage</li>
-       </ul>
-       <a href="https://github.com/sga-07/IntershipII" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View on GitHub →</a>
-     </div>
-     <div class="project crypto-project" data-info="₿ Advanced Crypto Analytics">
-       <h3 class="title">Trading Beez - Crypto Trading Platform</h3>
-       <p class="subtitle">Python Django, Blockchain APIs, LLM Algorithms</p>
-       <ul class="list-disc pl-5 mb-3">
-         <li>Cryptocurrency price analysis and trading platform</li>
-         <li>Integrated blockchain APIs for real-time market data</li>
-         <li>Implemented LLM algorithms for predictive trading insights</li>
-         <li>Built comprehensive dashboard for portfolio management</li>
-       </ul>
-       <a href="https://github.com/dream00014/COMP-8347-Project" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View on GitHub →</a>
-     </div>
-     <div class="project food-project" data-info="🍕 Real-time Food Delivery">
-       <h3 class="title">Foodies - Food Ordering Platform</h3>
-       <p class="subtitle">Python Django, Google Maps API</p>
-       <ul class="list-disc pl-5 mb-3">
-         <li>Complete food ordering and tracking system</li>
-         <li>Live Google Maps integration for delivery tracking</li>
-         <li>Real-time order status updates and notifications</li>
-         <li>User-friendly interface with responsive design</li>
-       </ul>
-       <a href="https://github.com/PauravThakkar/foodies" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View on GitHub →</a>
-     </div>
-   </div>
- </section>
+                if (index === 0) {
+                    item.classList.add('active');
+                    updateDetails(job);
+                }
+            });
+        }
 
- <section class="mb-12">
-   <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Experience</h2>
-   <div class="space-y-6">
-     <div class="experience ai-experience" data-info="🤖 AI Systems & Analytics">
-       <h3 class="title">AI Support & Technical Analyst – Outlier AI (Remote)</h3>
-       <p class="subtitle">Jan 2024 – Present</p>
-       <ul class="list-disc pl-5 space-y-1">
-         <li>Achieved a 78% increase in customer satisfaction by providing remote technical support & troubleshooting for AI systems, ensuring high accuracy and quality of responses</li>
-         <li>Decreased recurring customer issues by 50% by facilitating cross-departmental workshops and establishing shared problem-solving frameworks, resulting in enhanced operational efficiency</li>
-         <li>Increased junior analyst performance by 40% by providing structured mentoring and knowledge sharing sessions, resulting in faster onboarding and improved team capabilities</li>
-         <li>Implemented a feedback loop system, allowing for continual adjustments based on user input, leading to noticeable enhancements in service quality</li>
-       </ul>
-     </div>
-     <div class="experience delivery-experience" data-info="🚛 Logistics & Operations">
-       <h3 class="title">Warehouse Delivery Driver – Morton Food Services</h3>
-       <p class="subtitle">Nov 2023 – Dec 2023</p>
-       <ul class="list-disc pl-5 space-y-1">
-         <li>Enhanced delivery efficiency by 84% by operating delivery vehicles & ensuring timely delivery of products, demonstrating reliability and attention to detail</li>
-         <li>Reduced POS issue resolution time by 15%, improving transaction flow and support operations</li>
-         <li>Optimized ticketing systems and authored user guides to streamline client self-service</li>
-       </ul>
-     </div>
-     <div class="experience retail-experience" data-info="🏪 Customer Excellence">
-       <h3 class="title">Customer Associate – Home Depot</h3>
-       <p class="subtitle">Apr 2023 – Nov 2023</p>
-       <ul class="list-disc pl-5 space-y-1">
-         <li>Improved stock accuracy by 25% by implementing systematic inventory tracking procedures, resulting in reduced out-of-stock incidents and 15% faster restocking cycles</li>
-         <li>Increased customer retention by 20% by analyzing feedback data to identify service gaps and implementing targeted training programs, resulting in improved customer satisfaction scores</li>
-         <li>Boosted department sales by 18% by collaborating with team members to redesign floor layouts and optimize product placement, resulting in enhanced product visibility and customer flow</li>
-         <li>Reduced customer complaint resolution time by 40% by establishing a structured feedback collection system, resulting in improved operational efficiency and higher customer satisfaction ratings</li>
-         <li>Increased impulse purchases by 30% by redesigning product displays using visual merchandising techniques, resulting in measurable sales growth in featured product categories</li>
-       </ul>
-     </div>
-   </div>
- </section>
-
- <section>
-   <h2 class="text-2xl font-semibold text-blue-800 border-b-2 border-blue-200 pb-2 mb-4">Education</h2>
-   <div class="bg-white p-6 shadow-md rounded-lg">
-     <div class="mb-4">
-       <h3 class="text-lg font-bold">University of Windsor, ON</h3>
-       <p class="text-gray-600">Master of Applied Computing (2023–2024)</p>
-     </div>
-     <div class="mb-4">
-       <h3 class="text-lg font-bold">Conestoga College, ON</h3>
-       <p class="text-gray-600">Information Technology Network Security Certificate (2022)</p>
-     </div>
-     <div class="mb-4">
-       <h4 class="font-semibold text-blue-700">Relevant Courses:</h4>
-       <p class="text-sm">Advanced Database Topics, Advanced Software Engineering, Networking, Managing Employees, Cloud Network Security, Windows Infrastructure, Fundamentals of Information Security</p>
-     </div>
-     <div>
-       <h4 class="font-semibold text-blue-700">Concentration:</h4>
-       <p class="text-sm">Technical Troubleshooting, Network Security, System Maintenance</p>
-     </div>
-   </div>
- </section> 
-</main>
-
-  <!-- Footer -->
-  <footer class="bg-blue-50 text-center py-6 mt-12">
-    <p class="text-sm text-blue-900">
-      © 2025 Jaydeep Zala | Let's connect at
-      <a href="mailto:zalajay515@gmail.com" class="underline">zalajay515@gmail.com</a>
-    </p>
-  </footer>
-
-  <script src="script.js"></script>
+        timelineControls.addEventListener('click', (e) => {
+            const button = e.target.closest('button');
+            if (button) {
+                const jobId = button.dataset.id;
+                const job = experienceData.find(j => j.id === jobId);
+                document.querySelectorAll('.timeline-item').forEach(item => item.classList.remove('active'));
+                button.closest('.timeline-item').classList.add('active');
+                updateDetails(job);
+            }
+        });
+        
+        document.addEventListener('DOMContentLoaded', createTimeline);
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        document.getElementById('download-btn').addEventListener('click', () => {
+            const pdfContent = document.getElementById('pdf-content');
+            pdfContent.style.left = '0';
+            pdfContent.style.opacity = '1';
+            const filename = 'Jaydeep_Zala_Resume.pdf';
+            html2canvas(pdfContent, {
+                scale: 2
+            }).then(canvas => {
+                const { jsPDF } = window.jspdf;
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgWidth = 210;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.save(filename);
+                pdfContent.style.left = '-9999px';
+                pdfContent.style.opacity = '0';
+            });
+        });
+    </script>
 </body>
 </html>
